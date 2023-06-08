@@ -37,7 +37,6 @@ const Auth = ({ setUser,user }) => {
           email,
           password
         );
-        console.log(user);
         setUser(user);
       } else {
         return toast.error("All fields are mandatory to fill");

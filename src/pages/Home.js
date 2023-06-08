@@ -59,7 +59,6 @@ const Home = ({ user, active }) => {
 
   const getBlogs = async () => {
     const blogRef = collection(db, "blogs");
-    console.log(blogRef);
     const docs = query(blogRef, orderBy("title"));
     const docSnapshot = await getDocs(docs);
     setBlogs(docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
@@ -86,11 +85,15 @@ const Home = ({ user, active }) => {
 
   return (
     <div className="container-fluid pb-4 pt-4 padding">
-      <div className="row mx-0">
+      <div className="row mx-0 max-w-[1300px] mx-auto">
+        <p className="text-left pl-10 text-[20px] mt-[80px] px-2">
+          {" "}
+          Hi <span className=" font-bold">{user.displayName},</span>
+        </p>
         <Trending blogs={trendBlogs} />
         <div className="">
           <div className=" text-xl font-bold py-2 mb-4">Daily Blog</div>
-          <div className="max-w-[1300px] grid sm:grid-cols-2 md:grid-cols-3 gap-4 px-[40px] mx-auto">
+          <div className=" grid sm:grid-cols-2 md:grid-cols-3 gap-4 px-[40px] ">
             {blogs?.map((blog) => (
               <BlogSection
                 key={blog.id}

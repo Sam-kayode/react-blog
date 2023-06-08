@@ -5,7 +5,7 @@ const Trending = ({ blogs }) => {
     <>
       <div>
         {blogs[0] && (
-          <div className=" text-xl font-bold py-2 mb-4 mt-16">Trending Posts</div>
+          <div className=" text-xl font-bold py-2 mb-4 mt-6">Trending Posts</div>
         )}
       </div>
       <div className="max-w-[85vw] mx-auto md-w-full overflow-x-auto px-[10px] pb-[30px]">
