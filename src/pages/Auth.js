@@ -61,7 +61,7 @@ const Auth = ({ setUser,user }) => {
   return (
     <>
     
-    <div className="flex flex-col h-[80vh] justify-center items-center mx-auto w-screen">
+    <div className="flex flex-col h-[90vh] justify-center items-center mx-auto w-screen">
       <div className="text-center py-2 mb-5 text-[25px] font-bold text-green-600 mt-16">
         {!signUp ? "Sign-In" : "Sign-Up"}
       </div>
