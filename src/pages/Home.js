@@ -87,8 +87,11 @@ const Home = ({ user, active }) => {
     <div className="container-fluid pb-4 pt-4 padding">
       <div className="row mx-0 max-w-[1300px] mx-auto">
         <p className="text-left pl-10 text-[20px] mt-[80px] px-2">
-          {" "}
-          Hi <span className=" font-bold">{user.displayName},</span>
+          {user?.displayName && (
+            <>
+              Hi <span className=" font-bold">{user.displayName},</span>
+            </>
+          )}
         </p>
         <Trending blogs={trendBlogs} />
         <div className="">
