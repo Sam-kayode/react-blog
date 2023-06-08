@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { MenuItem } from "./navigation/menu-item";
 import { menuItems } from "./constants";
 
-const Header = ({ active, setActive, user, handleLogout }) => {
+const Header = ({ user, handleLogout }) => {
   const userId = user?.uid;
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -44,7 +44,7 @@ const Header = ({ active, setActive, user, handleLogout }) => {
   ));
 
   return (
-    <nav className="bg-white shadow-lg">
+    <nav className="bg-white shadow-lg fixed top-0 w-screen">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between">
           <div className="flex space-x-7">
@@ -104,9 +104,7 @@ const Header = ({ active, setActive, user, handleLogout }) => {
       <div
         ref={ref}
         className={`${
-          isMobileMenuOpen
-            ? "mobile-menu fixed top-[61px] border h-[220px]"
-            : "hidden"
+          isMobileMenuOpen ? "top-[61px] border" : "hidden"
         } bg-white border rounded-md`}
       >
         <ul className="w-screen">{mobileListMenuItems}</ul>

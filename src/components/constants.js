@@ -7,10 +7,7 @@ export const menuItems = [
         to: '/create',
         title: 'Create',
       },
-      {
-        to: '/about',
-        title: 'About',
-      },
+      
           
   ];
   

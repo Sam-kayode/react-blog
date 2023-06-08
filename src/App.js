@@ -8,16 +8,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Detail from "./pages/Detail";
 import AddEditBlog from "./pages/AddEditBlog";
-import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import Header from "./components/Header";
 import Auth from "./pages/Auth";
 import { auth } from "./firebase/firebase";
 import { signOut } from "firebase/auth";
-// import TagBlog from "./pages/TagBlog";
-// import CategoryBlog from "./pages/CategoryBlog";
-// import ScrollToTop from "./components/ScrollToTop";
-// import Blogs from "./pages/Blogs";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -42,9 +37,8 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App min-h-[100vh]">
       <Header user={user} handleLogout={handleLogout} />
-      {/* <ScrollToTop /> */}
       <ToastContainer position="top-center" />
       <Routes>
         <Route path="/" element={<Home user={user} />} />
@@ -62,10 +56,6 @@ function App() {
             user?.uid ? <AddEditBlog user={user} /> : <Navigate to="/" />
           }
         />
-        {/* <Route path="/blogs" element={<Blogs />} /> */}
-        {/* <Route path="/tag/:tag" element={<TagBlog />} /> */}
-        {/* <Route path="/category/:category" element={<CategoryBlog />} /> */}
-        <Route path="/about" element={<About />} />
         <Route
           path="/auth"
           element={user?.uid ? <Navigate to="/" />: <Auth setUser={setUser} />}

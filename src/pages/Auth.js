@@ -63,11 +63,11 @@ const Auth = ({ setUser,user }) => {
     <>
     
     <div className="flex flex-col h-[80vh] justify-center items-center mx-auto w-screen">
-      <div className="text-center py-2 mb-5 text-[25px] font-bold text-green-600">
+      <div className="text-center py-2 mb-5 text-[25px] font-bold text-green-600 mt-16">
         {!signUp ? "Sign-In" : "Sign-Up"}
       </div>
       <div className="max-w-[90vw] sm:max-w-[400px] w-[400px] rounded shadow-md px-3 py-5 sm:p-8">
-        <form className="grid gap-3" onSubmit={handleAuth}>
+        <form className="grid gap-3 " onSubmit={handleAuth}>
           {signUp && (
             <>
               <div className="">

@@ -1,11 +1,109 @@
-  import React from 'react'
-  
-  const Home = () => {
-    return (
-      <div>
-        <h2></h2>
-      </div>
-    )
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  orderBy,
+  where,
+} from "firebase/firestore";
+import React, { useState, useEffect } from "react";
+import BlogSection from "../components/BlogSection";
+import Spinner from "../components/Spinner";
+import { db } from "../firebase/firebase";
+import { toast } from "react-toastify";
+import Trending from "../components/Trending";
+
+const Home = ({ user, active }) => {
+  const [loading, setLoading] = useState(true);
+  const [blogs, setBlogs] = useState([]);
+  const [trendBlogs, setTrendBlogs] = useState([]);
+  const getTrendingBlogs = async () => {
+    const blogRef = collection(db, "blogs");
+    const trendQuery = query(blogRef, where("trending", "==", "yes"));
+    const querySnapshot = await getDocs(trendQuery);
+    let trendBlogs = [];
+    querySnapshot.forEach((doc) => {
+      trendBlogs.push({ id: doc.id, ...doc.data() });
+    });
+    setTrendBlogs(trendBlogs);
+  };
+
+  useEffect(() => {
+    getTrendingBlogs();
+    const blogs = onSnapshot(
+      collection(db, "blogs"),
+      (snapshot) => {
+        let list = [];
+        snapshot.docs.forEach((doc) => {
+          list.push({ id: doc.id, ...doc.data() });
+        });
+        setBlogs(list);
+        setLoading(false);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    return () => {
+      blogs();
+      getTrendingBlogs();
+    };
+  }, []);
+
+  useEffect(() => {
+    getBlogs();
+  }, [active]);
+
+  const getBlogs = async () => {
+    const blogRef = collection(db, "blogs");
+    console.log(blogRef);
+    const docs = query(blogRef, orderBy("title"));
+    const docSnapshot = await getDocs(docs);
+    setBlogs(docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+  };
+
+  if (loading) {
+    return !blogs[0] && <Spinner />;
   }
-  
-  export default Home
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure wanted to delete that blog ?")) {
+      try {
+        setLoading(true);
+        await deleteDoc(doc(db, "blogs", id));
+        toast.success("Blog deleted successfully");
+        setLoading(false);
+        getBlogs();
+        getTrendingBlogs();
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  return (
+    <div className="container-fluid pb-4 pt-4 padding">
+      <div className="row mx-0">
+        <Trending blogs={trendBlogs} />
+        <div className="">
+          <div className=" text-xl font-bold py-2 mb-4">Daily Blog</div>
+          <div className="max-w-[1300px] grid sm:grid-cols-2 md:grid-cols-3 gap-4 px-[40px] mx-auto">
+            {blogs?.map((blog) => (
+              <BlogSection
+                key={blog.id}
+                user={user}
+                handleDelete={handleDelete}
+                {...blog}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
